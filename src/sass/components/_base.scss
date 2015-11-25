@@ -1,0 +1,97 @@
+/**********************************
+ Base
+ **********************************/
+
+.rm-datepicker [ng-cloak] {
+  display: none !important;
+}
+
+.rm-datepicker {
+  background-color: #fff;
+  line-height: 1.5;
+  font-family: arial, sans-serif;
+  font-weight: normal;
+  color: $c-defaultText;
+  box-sizing: border-box;
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  a {
+    color: $c-defaultText;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+input[rm-datepicker]+.rm-datepicker{
+  position: absolute;
+  box-shadow: 2px 2px 6px #ccc;
+  z-index: 999999;
+  //transition: top .2s ease-out, left .2s ease-out;
+  min-width: 320px;
+}
+
+@media only screen and (min-width: 0) {
+  .rm-datepicker {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .rm-datepicker {
+    font-size: 14.5px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .rm-datepicker {
+    font-size: 15px;
+  }
+}
+
+.rm-datepicker .waves-effect .waves-ripple {
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.4);
+  background: -webkit-radial-gradient(rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0) 70%);
+  background: -o-radial-gradient(rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0) 70%);
+  background: -moz-radial-gradient(rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0) 70%);
+}
+
+.rm-datepicker .body .waves-effect .waves-ripple {
+  background: rgba(0, 150, 136, 0.7);
+}
+
+.waves-effect.waves-light .waves-ripple {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.waves-effect.waves-red .waves-ripple {
+  background: rgba(244, 67, 54, 0.7);
+}
+
+.waves-effect.waves-yellow .waves-ripple {
+  background: rgba(255, 235, 59, 0.7);
+}
+
+.waves-effect.waves-orange .waves-ripple {
+  background: rgba(255, 152, 0, 0.7);
+}
+
+.waves-effect.waves-purple .waves-ripple {
+  background: rgba(156, 39, 176, 0.7);
+}
+
+.waves-effect.waves-green .waves-ripple {
+  background: rgba(76, 175, 80, 0.7);
+}
+
+.waves-effect.waves-teal .waves-ripple {
+  background: rgba(0, 150, 136, 0.7);
+}
+

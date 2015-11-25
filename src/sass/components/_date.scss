@@ -1,0 +1,50 @@
+/**********************************
+ Date
+ **********************************/
+
+.rm-datepicker .date a {
+  color: $c-defaultText;
+  font-size: 0.8em;
+  font-weight: 400;
+  cursor: pointer;
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+}
+
+.rm-datepicker .date .j a,
+.rm-datepicker .date a.j,
+.rm-datepicker .date a:hover {
+  font-weight: 600;
+}
+
+/* active date */
+.rm-datepicker .date .j a {
+  background-color: $bg-activeDate;
+}
+
+.rm-datepicker .date .out a {
+  background-color: #E4E3E3 !important;
+  opacity: 0.3;
+  border-color: #BBB;
+}
+
+.rm-datepicker .date .off a {
+  background-color: #F2F2F2 !important;
+  opacity: 0.05;
+  border-color: #555;
+  cursor: not-allowed;
+}
+
+.rm-datepicker .decade.date > *:nth-child(-n+4) a,
+.rm-datepicker .year.date > *:nth-child(-n+4) a,
+.rm-datepicker .month.date > *:nth-child(-n+7) a {
+  border-top-color: transparent;
+}
+
+.rm-datepicker .date > *:nth-child(1) a,
+.rm-datepicker .decade.date > *:nth-child(4n+1) a,
+.rm-datepicker .year.date > *:nth-child(4n+1) a,
+.rm-datepicker .month.date > *:nth-child(7n+1) a {
+  border-left-color: transparent;
+}
+

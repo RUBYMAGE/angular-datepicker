@@ -1,0 +1,16 @@
+/**********************************
+ Day of week
+ **********************************/
+
+.rm-datepicker .day {
+  background-color: #eee;
+}
+
+.rm-datepicker .day > * {
+  display: inline-block;
+  width: 14.28571428570%;
+  text-align: center;
+  padding: 4px 0;
+  color: $c-defaultText;
+  font-size: 0.8em;
+}

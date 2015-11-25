@@ -1,0 +1,44 @@
+/**********************************
+ Material Design Icons https://google.github.io/material-design-icons/
+ **********************************/
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+.rm-datepicker {
+    [class*="mi_"] {
+        speak: none;
+        line-height: inherit;
+        font-family: "Material Icons";
+        font-style: normal;
+        font-weight: 400;
+        font-size: inherit;
+        font-variant: normal;
+        text-rendering: auto;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+        display: inline-block;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    [class*="mi_"]:before {
+        display: inline-block;
+        speak: none;
+        text-decoration: inherit;
+    }
+
+    .mi_arrow_back:before {
+        content: "\e5C4";
+    }
+    .mi_keyboard_arrow_up:before {
+        content: "\e316";
+    }
+    .mi_keyboard_arrow_down:before {
+        content: "\e313";
+    }
+    .mi_close:before {
+        content: "\e5CD";
+    }
+}

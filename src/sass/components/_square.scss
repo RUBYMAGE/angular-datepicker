@@ -1,0 +1,30 @@
+/**********************************
+ Square
+ **********************************/
+.rm-datepicker .square > * {
+  float: left;
+  margin: 0;
+  position: relative;
+}
+
+.rm-datepicker .square a {
+  z-index: 9;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.rm-datepicker .square a:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.rm-datepicker .square a * {
+  vertical-align: middle;
+}

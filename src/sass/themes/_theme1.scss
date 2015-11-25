@@ -1,0 +1,103 @@
+/*!
+ * RM-DATEPICKER v1.0.0
+ * http://rubymage.com
+ *
+ * Copyright 2015 Sergiu Doe, RUBYMAGE
+ * Released under the MIT license
+ * https://github.com/RUBYMAGE/angular-datepicker/blob/master/LICENSE
+ */
+
+/**********************************
+ Theme1
+ **********************************/
+
+/*
+ * base
+ */
+.rm-datepicker {
+  font-family: "Roboto", sans-serif;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.rm-datepicker a {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/*
+ * waves
+ */
+.rm-datepicker .nav .waves-effect .waves-ripple {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.rm-datepicker .body .waves-effect .waves-ripple {
+  background: rgba(0, 150, 136, 0.7);
+}
+
+/*
+ * nav
+ */
+.rm-datepicker .nav {
+  background-color: #00bfa5;
+}
+
+.rm-datepicker .nav a {
+  color: #fff;
+}
+
+.rm-datepicker .nav a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/*
+ * date
+ */
+.rm-datepicker .date a {
+  font-weight: 400;
+}
+
+.rm-datepicker .date .j a,
+.rm-datepicker .date a.j,
+.rm-datepicker .date a:hover {
+  font-weight: 700;
+}
+
+/* active date */
+.rm-datepicker .date .j a {
+  background-color: rgba(0, 191, 165, 0.5);
+}
+
+/*
+ * sunSat
+ */
+/* saturday */
+.rm-datepicker .sunSat > *:nth-child(7),
+.rm-datepicker .sunSat > *:nth-child(7n) a,
+.rm-datepicker.mondayStart .sunSat > *:nth-child(6),
+.rm-datepicker.mondayStart .sunSat > *:nth-child(7n+6) a,
+.rm-datepicker .sunSat + * > *:nth-child(7),
+.rm-datepicker .sunSat + * > *:nth-child(7n) a,
+.rm-datepicker.mondayStart .sunSat + * > *:nth-child(6),
+.rm-datepicker.mondayStart .sunSat + * > *:nth-child(7n+6) a {
+  color: #039BE5 !important;
+}
+
+/* sunday */
+.rm-datepicker .sunSat > *:nth-child(1),
+.rm-datepicker .sunSat > *:nth-child(7n+1) a,
+.rm-datepicker.mondayStart .sunSat > *:nth-child(7),
+.rm-datepicker.mondayStart .sunSat > *:nth-child(7n) a,
+.rm-datepicker .sunSat + * > *:nth-child(1),
+.rm-datepicker .sunSat + * > *:nth-child(7n+1) a,
+.rm-datepicker.mondayStart .sunSat + * > *:nth-child(7),
+.rm-datepicker.mondayStart .sunSat + * > *:nth-child(7n) a {
+  color: #f44336 !important;
+}
+
+/* reset saturday */
+.rm-datepicker.mondayStart .sunSat > *:nth-child(1),
+.rm-datepicker.mondayStart .sunSat > *:nth-child(7n+1) a,
+.rm-datepicker.mondayStart .sunSat + * > *:nth-child(1),
+.rm-datepicker.mondayStart .sunSat + * > *:nth-child(7n+1) a {
+  color: rgba(0, 0, 0, 0.87) !important;
+}

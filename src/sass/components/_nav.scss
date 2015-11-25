@@ -1,0 +1,55 @@
+/**********************************
+ Nav
+ **********************************/
+
+.rm-datepicker {
+  .nav {
+    background-color: $bg-nav;
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+    position: relative;
+    * {
+      height: inherit;
+      line-height: inherit;
+    }
+    a {
+      cursor: pointer;
+      float: left;
+      font-size: 1em;
+      color: $c-nav;
+      display: inline-block;
+      padding: 0 10px;
+      text-align: center;
+      @include transition(background-color .3s);
+    }
+    a:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    /* icons */
+    i {
+      font-size: 1.1em;
+    }
+
+    /* controls */
+    .controls {
+      float: left;
+    }
+    .today {
+      float: right;
+    }
+    .adjacent {
+      padding: 0 12px;
+      i {
+        font-size: 1.4em;
+      }
+    }
+    .back {
+      min-width: 155px;
+      margin-left: -35px;
+      padding-left: 40px;
+    }
+  }
+}
+
