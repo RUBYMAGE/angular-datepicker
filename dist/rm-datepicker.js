@@ -348,12 +348,10 @@
         var TEMPLATE =
         '<div class="rm-datepicker" ng-class="{mondayStart: mondayStart}" ng-show="show" ng-style="style">' +
             '<div class="nav">' +
-                '<div class="controls">' +
-                    '<a><i class="mi_arrow_back"></i></a>' +
-                    '<a class="back waves-effect" ng-click="toggleState(-1)" rm-include="activeDateTpl[state]"></a>' +
-                    '<a class="adjacent waves-effect" ng-click="prev()"><i class="mi_keyboard_arrow_up"></i></a>' +
-                    '<a class="adjacent waves-effect" ng-click="next()"><i class="mi_keyboard_arrow_down"></i></a>' +
-                '</div>' +
+                '<a><i class="mi_arrow_back"></i></a>' +
+                '<a class="back waves-effect" ng-click="toggleState(-1)" rm-include="activeDateTpl[state]"></a>' +
+                '<a class="adjacent waves-effect" ng-click="prev()"><i class="mi_keyboard_arrow_up"></i></a>' +
+                '<a class="adjacent waves-effect" ng-click="next()"><i class="mi_keyboard_arrow_down"></i></a>' +
                 '<a class="today waves-effect" ng-click="now()">Today</a>' +
             '</div>' +
             '<div class="body" ng-include="\'rm-\' + state + \'.html\'"></div>' +
