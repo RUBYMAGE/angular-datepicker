@@ -14,7 +14,7 @@
 
     Module.constant('rmDatepickerConfig', {
         mondayStart: false,
-        defaultState: "month",
+        initState: "month",
         maxState: "decade",
         minState: "month",
         toggleState: true,
@@ -243,7 +243,7 @@
             if (scope.mondayStart) scope.aWeekDay.push(scope.aWeekDay.shift());
 
             scope.aStates = ["decade", "year", "month"];
-            scope.state = conf.defaultState;
+            scope.state = conf.initState;
 
             //TODO: this(together with rmInclude directive below) is a quick implementation, maybe there is a better idea
             scope.activeDateTpl = {

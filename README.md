@@ -41,7 +41,7 @@ angular.module('myApp', ['rmDatepicker']);
 function MyAppController($scope) {
     $scope.rmConfig1 = {
         mondayStart: false,
-        defaultState : "month", /* decade || year || month */
+        initState : "month", /* decade || year || month */
         maxState : "decade",
         minState : "month",
         decadeSize: 12,
@@ -59,7 +59,7 @@ function MyAppController($scope) {
 ```javascript
 app.config(['rmDatepickerConfig', function(rmDatepickerConfig) {
     rmDatepickerConfig.mondayStart = true;
-    rmDatepickerConfig.defaultState : "month";
+    rmDatepickerConfig.initState : "month";
     /* ... */
 }]);
 ```
