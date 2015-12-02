@@ -2,7 +2,7 @@
  * RM-DATEPICKER v1.0.0
  * http://rubymage.com
  *
- * Copyright 2015 Sergiu Doe, RUBYMAGE
+ * Copyright 2015 Sergiu Ghenciu, RUBYMAGE
  * Released under the MIT license
  * https://github.com/RUBYMAGE/angular-datepicker/blob/master/LICENSE
  */
