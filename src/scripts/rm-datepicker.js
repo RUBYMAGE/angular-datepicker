@@ -177,8 +177,10 @@
             scope.go = function (oDate) {
                 if (scope.isOff(oDate)) return;
 
-                if( isInput && scope.state == conf.minState )
+                if( isInput && scope.state == conf.minState && scope.isActive.month(oDate) ) {
                     scope.show = false;
+                    overlay.css("display", "none");
+                }
 
                 var m = scope.j.getMonth();
 
@@ -267,6 +269,7 @@
                 return {top: y, left: x};
             };
             var togglePicker = function(toggle) {
+                overlay.css("display", toggle ? "block" : "none");
                 scope.show = toggle;
                 scope.$apply();
             };
@@ -275,18 +278,21 @@
                     scrollY = window.scrollY,
                     innerWidth = window.innerWidth,
                     innerHeight = window.innerHeight;
+
+                if (window.innerWidth < 481)
+                    return {top: scrollY, left: 0};
+
                 var pos = offset(el),
                     marginBottom = scrollY + innerHeight - pos.top - el.clientHeight,
                     marginRight = scrollX + innerWidth - pos.left - el.clientWidth;
 
                 if (marginBottom < 0) pos.top += marginBottom;
-                if (pos.top < 0) pos.top = 0;
+                if (pos.top < scrollY) pos.top = scrollY;
                 if (marginRight < 0) pos.left += marginRight;
-                if (pos.left < 0 ) pos.left = 0;
+                if (pos.left < 0) pos.left = 0;
 
                 return pos;
             };
-            var over = false;
 
             if (isInput) {
                 scope.show = false;
@@ -301,9 +307,15 @@
                 element.after($compile(TEMPLATE)(scope));
 
                 var calendar = element.next();
-                
+                var overlay = angular.element('<div class="rm-overlay" style="display:none"></div>');
+                    overlay.on('click', function() {
+                        togglePicker(false);
+                    });
+                    $document.find('body').eq(0).append(overlay);
+
                 element.on('click', function() {
-                    if( window.innerWidth < 999 ) element[0].blur();
+
+                    if( window.innerWidth < 481 ) element[0].blur();
                     var pos = offset( element[0] );
                         pos.top += element[0].offsetHeight +1;
 
@@ -314,27 +326,7 @@
                     scope.$apply();
                 });
 
-                element.on('mouseenter', function () {
-                    over = true;
-                });
-
-                element.on('mouseleave', function () {
-                    over = false;
-                });
-
-                calendar.on('mouseenter', function () {
-                    over = true;
-                });
-
-                calendar.on('mouseleave', function () {
-                    over = false;
-                });
-
-                $document.on('click',function(){
-                    if( isInput && !over ) togglePicker(false);
-                });
-
-                element.on('keydown', function(e) {
+                $document.on('keydown', function(e) {
                     if ([9, 13, 27].indexOf(e.keyCode) >= 0) togglePicker(false);
                 });
             }
