@@ -1,0 +1,63 @@
+{
+  "name": "rm-datepicker",
+  "version": "1.0.0",
+  "description": "Clean and well optimized datepicker directive for angular",
+  "main": [
+    "dist/rm-datepicker.js",
+    "dist/rm-datepicker.css"
+  ],
+  "authors": [
+    "Sergiu Ghenciu <6180rm@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angular.js",
+    "datepicker",
+    "angularjs",
+    "datepicker",
+    "angular",
+    "datepicker",
+    "angular-datepicker",
+    "pickadate",
+    "datepicker",
+    "timepicker",
+    "pikaday",
+    "datepicker",
+    "directive",
+    "datepicker",
+    "add-on",
+    "simple",
+    "datepicker",
+    "clean",
+    "datepicker",
+    "fluid",
+    "datepicker",
+    "customizable",
+    "datepicker",
+    "inline",
+    "datepicker",
+    "dropdown",
+    "datepicker",
+    "modal",
+    "datepicker",
+    "lightweight",
+    "datepicker",
+    "datepicker",
+    "component"
+  ],
+  "homepage": "https://github.com/RUBYMAGE/angular-datepicker",
+  "dependencies": {
+    "angular": "1.x"
+  },
+  "ignore": [
+    "**/.*",
+    ".sass-cache",
+    "node_modules",
+    "src",
+    ".gitignore",
+    "gulpfile.js",
+    "index.html",
+    "LICENSE",
+    "package.json"
+  ]
+}

@@ -3,7 +3,28 @@
   "version": "1.0.0",
   "description": "Clean and well optimized datepicker directive for angular",
   "main": "dist/rm-datepicker.js",
-  "dependencies": {},
+  "author": {
+    "name": "Sergiu Ghenciu",
+    "email": "6180rm@gmail.com",
+    "url": "http://rubymage.com"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/RUBYMAGE/angular-datepicker/blob/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RUBYMAGE/angular-datepicker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RUBYMAGE/angular-datepicker/issues"
+  },
+  "homepage": "https://github.com/RUBYMAGE/angular-datepicker#readme",
+  "dependencies": {
+    "angular": "1.x"
+  },
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
@@ -16,12 +37,12 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.5.1"
   },
+  "engines": {
+    "node": "5.0.0",
+    "npm": "3.3.6"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RUBYMAGE/angular-datepicker.git"
   },
   "keywords": [
     "angular.js datepicker",
@@ -65,10 +86,11 @@
     "lightweight datepicker",
     "datepicker component"
   ],
-  "author": "Sergiu Ghenciu, RUBYMAGE",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/RUBYMAGE/angular-datepicker/issues"
-  },
-  "homepage": "https://github.com/RUBYMAGE/angular-datepicker#readme"
+  "contributors": [
+    {
+      "name": "Sergiu Ghenciu",
+      "email": "1024gs@gmail.com",
+      "url": "http://rubymage.com"
+    }
+  ]
 }
