@@ -14,6 +14,8 @@
 
     Module.constant('rmDatepickerConfig', {
         mondayStart: false,
+        textToday: "Today",
+
         initState: "month",
         maxState: "decade",
         minState: "month",
@@ -241,8 +243,7 @@
             };
 
             scope.mondayStart = conf.mondayStart;
-            scope.aWeekDay = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            if (scope.mondayStart) scope.aWeekDay.push(scope.aWeekDay.shift());
+            scope.textToday = conf.textToday;
 
             scope.aStates = ["decade", "year", "month"];
             scope.state = conf.initState;
@@ -344,7 +345,7 @@
                 '<a class="back waves-effect" ng-click="toggleState(-1)" rm-include="activeDateTpl[state]"></a>' +
                 '<a class="adjacent waves-effect" ng-click="prev()"><i class="mi_keyboard_arrow_up"></i></a>' +
                 '<a class="adjacent waves-effect" ng-click="next()"><i class="mi_keyboard_arrow_down"></i></a>' +
-                '<a class="today waves-effect" ng-click="now()">Today</a>' +
+                '<a class="today waves-effect" ng-click="now()">{{textToday}}</a>' +
             '</div>' +
             '<div class="body" ng-include="\'rm-\' + state + \'.html\'"></div>' +
         '</div>' +
@@ -367,7 +368,7 @@
 
         '<script type="text/ng-template" id="rm-month.html">' +
             '<div class="day sunSat" ng-if="state == \'month\'">' +
-                '<a ng-repeat="day in aWeekDay">{{day}}</a>' +
+                '<a ng-repeat="oDate in aDates | limitTo:7">{{oDate | date: \'EEE\'}}</a>' +
             '</div>' +
             '<div class="ng-class: state; square date">' +
                 '<div ng-repeat="oDate in aDates" ng-class="{j: isActive[\'date\'](oDate), off: isOff(oDate), out: !isActive[\'month\'](oDate)}">' +
