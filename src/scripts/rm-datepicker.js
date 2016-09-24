@@ -29,8 +29,8 @@
         format: "yyyy-MM-dd"
     });
 
-    Module.directive("rmDatepicker", ['rmDatepickerConfig', '$compile', '$filter', '$document',
-                            function (rmDatepickerConfig, $compile, $filter, $document) {
+    Module.directive("rmDatepicker", ['rmDatepickerConfig', '$compile', '$filter', '$document', '$timeout',
+                            function (rmDatepickerConfig, $compile, $filter, $document, $timeout) {
 
         var link = function (scope, element, attrs, ngModel) {
             var conf = angular.copy(rmDatepickerConfig);
@@ -272,6 +272,9 @@
             var togglePicker = function(toggle) {
                 overlay.css("display", toggle ? "block" : "none");
                 scope.show = toggle;
+                if(scope.show) {
+                    wheelInit(element.next());
+                }
                 scope.$apply();
             };
             var adjustPos = function (el) {
@@ -334,6 +337,98 @@
             else {
                 scope.show = true;
                 element.append($compile(TEMPLATE)(scope));
+                wheelInit(angular.element(element.children()[0]));
+            }
+
+            var onWheelThrottled = throttle(onWheel, 150, { leading: false, trailing: true });
+            var isRunning = false;
+
+            function wheelInit(calendarElement) {
+                setTimeout(function() {
+                    // var body = window.document.querySelector('.rm-datepicker .body');
+                    var body = calendarElement.children()[1];
+                    if(body) {
+                        if (body.addEventListener) {
+                            if ('onwheel' in document) {
+                                body.addEventListener('wheel', wheelHandler, false);
+                            }
+                            else if ('onmousewheel' in document) {
+                            }
+                            else {
+                                body.addEventListener('MozMousePixelScroll', wheelHandler, false);
+                            }
+                        }
+                        else if(body.attachEvent) {
+                            body.attachEvent('onmousewheel', wheelHandler);
+                        }
+                    }
+                }, 700);
+            }
+
+            function wheelHandler(e) {
+                var event = e || e.originalEvent;
+                event.preventDefault();
+                event.stopPropagation();
+                if(!isRunning) {
+                    onWheelThrottled(event);
+                }
+                isRunning = true;
+            }
+
+            function onWheel(event) {
+                if(isRunning) {
+                    if(event.wheelDelta / 120 > 0) {
+                        scope.prev();
+                    }
+                    else {
+                        scope.next();
+                    }
+                }
+                isRunning = false;
+            }
+
+            function throttle(func, wait, options) {
+                var context, args, result;
+                var timeout = undefined;
+                var previous = 0;
+                if (!options) {
+                    options = { };
+                }
+                var later = function() {
+                    previous = options.leading === false ? 0 : Date.now();
+                    if (timeout) {
+                        $timeout.cancel(timeout);
+                    }
+                    timeout = undefined;
+                    result = func.apply(context, args);
+                    if (!timeout) {
+                        context = args = undefined;
+                    }
+                };
+                return function() {
+                    var now = Date.now();
+                    if (!previous && options.leading === false) {
+                        previous = now;
+                    }
+                    var remaining = wait - (now - previous);
+                    context = this;
+                    args = arguments;
+                    if (remaining <= 0 || remaining > wait) {
+                        if (timeout) {
+                            $timeout.cancel(timeout);
+                        }
+                        timeout = undefined;
+                        previous = now;
+                        result = func.apply(context, args);
+                        if (!timeout) {
+                            context = args = undefined;
+                        }
+                    }
+                    else if (!timeout && options.trailing !== false) {
+                        timeout = $timeout(later, remaining);
+                    }
+                    return result;
+                };
             }
         };
 
