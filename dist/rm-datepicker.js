@@ -161,7 +161,6 @@
                 return oDate1 < oDate2;
             };
             scope.isOff = function (oDate) {
-                debugger;
                 var min = new Date(scope.rmConfig.min);
                 if(!min || min.toString() === 'Invalid Date') {
                     min = conf.min;
