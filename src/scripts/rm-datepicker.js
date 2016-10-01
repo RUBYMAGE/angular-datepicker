@@ -123,14 +123,23 @@
                 state = state || scope.state;
                 scope.aDates = gen[state](scope.j);
 
-                if (conf.min) {
-                    //if(scope.aDates[0] < conf.min) scope.aDates[0].setDate( conf.min.getDate() );
-                    isReached.min = scope.aDates[0] < conf.min;
+                var min = new Date(scope.rmConfig.min);
+                if(!min || min.toString() === 'Invalid Date') {
+                    min = conf.min;
                 }
-                if (conf.max) {
+                if (min) {
+                    //if(scope.aDates[0] < min) scope.aDates[0].setDate( min.getDate() );
+                    isReached.min = scope.aDates[0] < min;
+                }
+
+                var max = new Date(scope.rmConfig.max);
+                if(!max || max.toString() === 'Invalid Date') {
+                    max = conf.max;
+                }
+                if (max) {
                     var oDate = scope.aDates[scope.aDates.length - 1];
-                    //if(oDate > conf.max) oDate.setDate( conf.max.getDate() );
-                    isReached.max = oDate > conf.max;
+                    //if(oDate > max) oDate.setDate( max.getDate() );
+                    isReached.max = oDate > max;
                 }
             };
             var init = function () {
@@ -152,11 +161,20 @@
                 return oDate1 < oDate2;
             };
             scope.isOff = function (oDate) {
-                if (!conf.min && !conf.max)
+                debugger;
+                var min = new Date(scope.rmConfig.min);
+                if(!min || min.toString() === 'Invalid Date') {
+                    min = conf.min;
+                }
+                var max = new Date(scope.rmConfig.max);
+                if(!max || max.toString() === 'Invalid Date') {
+                    max = conf.max;
+                }
+                if (!min && !max)
                     return false;
-                if (conf.min && isBefore(oDate, conf.min))
+                if (min && isBefore(oDate, min))
                     return true;
-                if (conf.max && isBefore(conf.max, oDate))
+                if (max && isBefore(max, oDate))
                     return true;
             };
             scope.isActive = {
@@ -318,8 +336,8 @@
                     $document.find('body').eq(0).append(overlay);
 
                 element.on('click', function() {
-
-                    if( window.innerWidth < 481 ) element[0].blur();
+                    element[0].blur();
+                    scope.j = scope.j.toString() === 'Invalid Date' ? new Date() : scope.j;
                     var pos = offset( element[0] );
                         pos.top += element[0].offsetHeight +1;
 
