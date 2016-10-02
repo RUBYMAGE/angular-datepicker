@@ -204,6 +204,9 @@
                 var m = scope.j.getMonth();
 
                 scope.j = new Date(oDate);
+                $timeout(function () {
+                    ngModel.$setViewValue(scope.j);
+                });
                 if (conf.toggleState) scope.toggleState(1);
 
                 if (m != scope.j.getMonth())
