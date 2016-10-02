@@ -54,7 +54,7 @@
             var adjustDate = function (date) {
                 var date = parseInt(date, 10);
                 if (!isNaN(date)) {
-                    var max = daysInMonth(scope.j.getFullYear(), scope.j.getMonth());
+                    var max = daysInMonth((scope.j || new Date()).getFullYear(), (scope.j || new Date()).getMonth());
                     if (date < 1) date = 1;
                     if (date > max) date = max;
                     scope.j.setDate(date);
@@ -62,9 +62,9 @@
             };
             var gen = {
                 decade: function (oDate) {
-                    var Y = oDate.getFullYear(),
-                        m = oDate.getMonth(),
-                        d = oDate.getDate(),
+                    var Y = (oDate || new Date()).getFullYear(),
+                        m = (oDate || new Date()).getMonth(),
+                        d = (oDate || new Date()).getDate(),
                         max,
                         i = 0,
                         n = conf.decadeSize || 12; // count of years in decade
@@ -80,9 +80,9 @@
                     return aDecade;
                 },
                 year: function (oDate) {
-                    var Y = oDate.getFullYear(),
+                    var Y = (oDate || new Date()).getFullYear(),
                         m = 0,
-                        d = oDate.getDate(),
+                        d = (oDate || new Date()).getDate(),
                         max;
                     var aYear = [];
                     for (; m < 12; m++) {
@@ -93,8 +93,8 @@
                     return aYear;
                 },
                 month: function (oDate) {
-                    var Y = oDate.getFullYear(),
-                        m = oDate.getMonth(),
+                    var Y = (oDate || new Date()).getFullYear(),
+                        m = (oDate || new Date()).getMonth(),
                         startDate = new Date(Y, m, 1, 3, 0, 1, 0),
                         n;
                     var startPos = startDate.getDay() || 7;
@@ -121,7 +121,7 @@
             };
             var refresh = function (state) {
                 state = state || scope.state;
-                scope.aDates = gen[state](scope.j);
+                scope.aDates = gen[state](scope.j || new Date());
 
                 var min = new Date(scope.rmConfig.min);
                 if(!min || min.toString() === 'Invalid Date') {
@@ -178,13 +178,13 @@
             };
             scope.isActive = {
                 year: function (oDate) {
-                    return oDate.getFullYear() == scope.j.getFullYear();
+                    return (oDate || new Date()).getFullYear() == (scope.j || new Date()).getFullYear();
                 },
                 month: function (oDate) {
-                    return oDate.getMonth() == scope.j.getMonth();
+                    return (oDate || new Date()).getMonth() == (scope.j || new Date()).getMonth();
                 },
                 date: function (oDate) {
-                    return oDate.getDate() == scope.j.getDate();
+                    return (oDate || new Date()).getDate() == (scope.j || new Date()).getDate();
                 }
             };
             scope.isToday = function (oDate) {
@@ -201,15 +201,15 @@
                     overlay.css("display", "none");
                 }
 
-                var m = scope.j.getMonth();
+                var m = (scope.j || new Date()).getMonth();
 
                 scope.j = new Date(oDate);
                 $timeout(function () {
-                    ngModel.$setViewValue(scope.j);
+                    ngModel.$setViewValue(scope.j || new Date());
                 });
                 if (conf.toggleState) scope.toggleState(1);
 
-                if (m != scope.j.getMonth())
+                if (m != (scope.j || new Date()).getMonth())
                     refresh();
             };
             scope.now = function () {
@@ -226,9 +226,9 @@
                     if (isReached.min) return;
                 }
 
-                var Y = scope.j.getFullYear(),
-                    m = scope.j.getMonth(),
-                    d = scope.j.getDate();
+                var Y = (scope.j || new Date()).getFullYear(),
+                    m = (scope.j || new Date()).getMonth(),
+                    d = (scope.j || new Date()).getDate();
 
                 switch (scope.state) {
                     case "decade":
