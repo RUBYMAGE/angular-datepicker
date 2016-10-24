@@ -309,6 +309,11 @@
                     return $filter('date')(oDate, conf.format);
                 });
 
+                ngModel.$validators.range = function () {
+                    var invalid = (conf.min && isReached.min) || (conf.max && isReached.max);
+                    return !invalid;
+                }
+
                 element.after($compile(TEMPLATE)(scope));
 
                 var calendar = element.next();
