@@ -14,9 +14,13 @@
     .container {
         max-width: 400px;
     }
+
+    input.ng-invalid {
+      background: #ff5050;
+    }
 </style>
 
-<div ng-app="myApp" ng-controller="MyCtrl" class="container">
+<div ng-app="myApp" ng-controller="MyCtrl" class="container" ng-form="Form">
 
     <a href="https://github.com/RUBYMAGE/angular-datepicker" target="_blank">https://github.com/RUBYMAGE/angular-datepicker</a>
     <br>
@@ -28,7 +32,12 @@
     <div rm-datepicker ng-model="oDate1" rm-config="rmConfig1"></div>
     <div>Selected date: {{oDate1 | date: 'yyyy-MM-dd'}}</div>
     <hr>
-    <input rm-datepicker type="text" ng-model="oDate2" rm-config="rmConfig2">
+    <input rm-datepicker type="text" ng-model="oDate2" rm-config="rmConfig2" name="Datepicker">
+    <div ng-show="Form.Datepicker.$invalid">
+        <p>Datepicker input validate errors:</p>
+        <pre ng-bind="Form.Datepicker.$error | json"></pre>
+    </div>
+
     <br>
 
 </div>
@@ -80,7 +89,10 @@
                 format: "yyyy-MM-dd" /* https://docs.angularjs.org/api/ng/filter/date */
             };
 
-            $scope.rmConfig2 = { format: "d MMM yyyy" };
+            $scope.rmConfig2 = {
+              max: new Date('2009-12-31'),
+              format: "dd.MM.yyyy"
+            };
 
             $scope.oDate1 = new Date('2015-12-12');
             $scope.oDate2 = new Date();
