@@ -13,7 +13,7 @@ datepicker component
 
 ### Demo
 
-<a href="http://plnkr.co/edit/d72lMp?p=preview" target="_blank">Try it on Plunker</a>
+<a href="http://plnkr.co/edit/dppNew?p=preview" target="_blank">Try it on Plunker</a>
 
 ### Usage
 

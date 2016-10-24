@@ -20,6 +20,11 @@
 
     <a href="https://github.com/RUBYMAGE/angular-datepicker" target="_blank">https://github.com/RUBYMAGE/angular-datepicker</a>
     <br>
+
+    <div style="margin:25px 0;">
+      Language: <select ng-options="lang as lang for lang in langs" ng-model="lang"></select>
+    </div>
+
     <div rm-datepicker ng-model="oDate1" rm-config="rmConfig1"></div>
     <div>Selected date: {{oDate1 | date: 'yyyy-MM-dd'}}</div>
     <hr>
@@ -28,11 +33,16 @@
 
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.min.js"></script>
 <!--<script src="http://fian.my.id/Waves/static/waves.min.js?v=0.7.4"></script>-->
 <script src="src/scripts/rm-datepicker.js"></script>
 <!--<script src="dist/rm-datepicker.min.js"></script>-->
 <script>
+    var langs = 'aa af agq ak am ar as asa ast az bas be bem bez bg bm bn bo br brx bs byn ca cgg chr ckb cs cy da dav de dje dsb dua dyo dz ebu ee el en eo es et eu ewo fa ff fi fil fo fr fur fy ga gd gl gsw gu guz gv ha haw he hi hr hsb hu hy ia id ig ii in is it iw ja jgo jmc ka kab kam kde kea khq ki kk kkj kl kln km kn ko kok ks ksb ksf ksh kw ky lag lb lg lkt ln lo lt lu luo luy lv mas mer mfe mg mgh mgo mk ml mn mr ms mt mua my naq nb nd ne nl nmg nn nnh no nr nso nus nyn om or os pa pl ps pt qu rm rn ro rof ru rw rwk sah saq sbp se seh ses sg shi si sk sl smn sn so sq sr ss ssy st sv sw swc ta te teo tg th ti tig tl tn to tr ts twq tzm ug uk ur uz vai ve vi vo vun wae wal xh xog yav yi yo zgh zh zu'.split(' ');
+    var lang = location.search.substring(1);
+    var lang = lang && lang.indexOf(lang) != -1 ? lang : 'en';
+    var src = 'https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.5.8/angular-locale_' + lang + '.min.js';
+    document.write('<script src="' + src + '"></scr' + 'ipt>');
 
     var app = angular.module("myApp", ["rmDatepicker"]);
 
@@ -50,6 +60,11 @@
         var app = angular.module("myApp");
 
         var MyCtrl = function ($scope) {
+            $scope.langs = langs;
+            $scope.lang = lang;
+            $scope.$watch('lang', function () {
+               lang == $scope.lang || (location.search = $scope.lang);
+            })
 
             /* Datepicker local configuration */
             $scope.rmConfig1 = {
@@ -61,6 +76,7 @@
                 monthSize: 42, /* "auto" || fixed nr. (35 or 42) */
                 min: new Date('2000-11-21'),
                 max: new Date('2023-11-21'),
+                activeMonthFormat: "LLLL‘yy",
                 format: "yyyy-MM-dd" /* https://docs.angularjs.org/api/ng/filter/date */
             };
 
@@ -79,6 +95,3 @@
 </script>
 </body>
 </html>
-
-
-
