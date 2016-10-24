@@ -26,6 +26,8 @@
 
         min: null,
         max: null,
+
+        activeMonthFormat: 'MMMM yyyy',
         format: "yyyy-MM-dd"
     });
 
@@ -256,7 +258,7 @@
             scope.activeDateTpl = {
                 decade: "{{aDates[0].getFullYear()}} - {{aDates[aDates.length-1].getFullYear()}}",
                 year: "{{j.getFullYear()}}",
-                month: "{{j | date: 'MMMM yyyy'}}",
+                month: "{{j | date: '" + conf.activeMonthFormat.replace("'", "") + "'}}",
                 week: "{{ j | date: 'd MMMM yyyy' }}"
             };
 
