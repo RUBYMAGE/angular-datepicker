@@ -32,7 +32,7 @@
     <div rm-datepicker ng-model="oDate1" rm-config="rmConfig1"></div>
     <div>Selected date: {{oDate1 | date: 'yyyy-MM-dd'}}</div>
     <hr>
-    <input rm-datepicker type="text" ng-model="oDate2" rm-config="rmConfig2" name="Datepicker">
+    <input rm-datepicker type="text" ng-model="oDate2" rm-config="rmConfig2" ng-required="true" name="Datepicker">
     <div ng-show="Form.Datepicker.$invalid">
         <p>Datepicker input validate errors:</p>
         <pre ng-bind="Form.Datepicker.$error | json"></pre>
@@ -95,7 +95,7 @@
             };
 
             $scope.oDate1 = new Date('2015-12-12');
-            $scope.oDate2 = new Date();
+            $scope.oDate2 = undefined;
         };
         app.controller("MyCtrl", ['$scope', MyCtrl]);
 
