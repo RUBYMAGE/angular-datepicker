@@ -29,8 +29,8 @@
         format: "yyyy-MM-dd"
     });
 
-    Module.directive("rmDatepicker", ['rmDatepickerConfig', '$compile', '$filter', '$document',
-                            function (rmDatepickerConfig, $compile, $filter, $document) {
+    Module.directive("rmDatepicker", ['rmDatepickerConfig', '$compile', '$filter', '$document', '$timeout',
+                            function (rmDatepickerConfig, $compile, $filter, $document, $timeout) {
 
         var link = function (scope, element, attrs, ngModel) {
             var conf = angular.copy(rmDatepickerConfig);
@@ -187,6 +187,9 @@
                 var m = scope.j.getMonth();
 
                 scope.j = new Date(oDate);
+                $timeout(function () {
+                    ngModel.$setViewValue(scope.j);
+                });
                 if (conf.toggleState) scope.toggleState(1);
 
                 if (m != scope.j.getMonth())
