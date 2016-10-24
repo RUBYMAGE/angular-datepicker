@@ -135,8 +135,13 @@
                     isReached.max = oDate > conf.max;
                 }
             };
+
+            var isDateEmptyBeforeInit = false;
             var init = function () {
-                if (!scope.j) {scope.j = new Date();}
+                if (!scope.j || !(scope.j instanceof Date)) {
+                  isDateEmptyBeforeInit = true;
+                  scope.j = new Date();
+                }
                 return refresh();
             };
 
@@ -190,6 +195,7 @@
                 var m = scope.j.getMonth();
 
                 scope.j = new Date(oDate);
+                isDateEmptyBeforeInit = false;
                 $timeout(function () {
                     ngModel.$setViewValue(scope.j);
                 });
@@ -308,8 +314,17 @@
                     return new Date(sDate);
                 });
                 ngModel.$formatters.push(function(oDate) {
-                    return $filter('date')(oDate, conf.format);
+                    return isDateEmptyBeforeInit ? '' : $filter('date')(oDate, conf.format);
                 });
+
+                ngModel.$validators.required = function () {
+                    return !attrs.required || !isDateEmptyBeforeInit;
+                }
+
+                ngModel.$validators.range = function () {
+                    var invalid = (conf.min && isReached.min) || (conf.max && isReached.max);
+                    return !invalid;
+                }
 
                 element.after($compile(TEMPLATE)(scope));
 
