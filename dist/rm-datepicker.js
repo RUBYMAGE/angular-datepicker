@@ -134,6 +134,7 @@
                 }
             };
             var init = function () {
+                if (!scope.j) {scope.j = new Date();}
                 return refresh();
             };
 
@@ -384,7 +385,7 @@
             require: 'ngModel',
             scope: {
                 j: '=ngModel', /* active date */
-                rmConfig: "="
+                rmConfig: "=rmConfig"
             },
             link: link
         }
