@@ -317,6 +317,10 @@
                     return isDateEmptyBeforeInit ? '' : $filter('date')(oDate, conf.format);
                 });
 
+                ngModel.$validators.required = function () {
+                    return !attrs.required || !isDateEmptyBeforeInit;
+                }
+
                 element.after($compile(TEMPLATE)(scope));
 
                 var calendar = element.next();
