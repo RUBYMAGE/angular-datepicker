@@ -8,7 +8,6 @@
  */
 
 (function () {
-    'use strict';
 
     var Module = angular.module('rmDatepicker', []);
 
@@ -181,8 +180,7 @@
                 if (scope.isOff(oDate)) return;
 
                 if( isInput && scope.state == conf.minState && scope.isActive.month(oDate) ) {
-                    scope.show = false;
-                    overlay.css("display", "none");
+                    togglePicker(false);
                 }
 
                 var m = scope.j.getMonth();
@@ -273,22 +271,21 @@
                 }
                 return {top: y, left: x};
             };
-            var togglePicker = function(toggle) {
+            var togglePicker = function (toggle) {
                 overlay.css("display", toggle ? "block" : "none");
-                scope.show = toggle;
-                scope.$apply();
+                calendar.css("display", toggle ? "block" : "none");
             };
-            var adjustPos = function (el) {
+            var adjustPos = function (pos, el) {
                 var scrollX = window.scrollX,
                     scrollY = window.scrollY,
                     innerWidth = window.innerWidth,
                     innerHeight = window.innerHeight;
 
-                if (window.innerWidth < 481)
+                if (window.innerWidth < 481) {
                     return {top: scrollY, left: 0};
+                }
 
-                var pos = offset(el),
-                    marginBottom = scrollY + innerHeight - pos.top - el.clientHeight,
+                var marginBottom = scrollY + innerHeight - pos.top - el.clientHeight,
                     marginRight = scrollX + innerWidth - pos.left - el.clientWidth;
 
                 if (marginBottom < 0) pos.top += marginBottom;
@@ -300,50 +297,47 @@
             };
 
             if (isInput) {
-                scope.show = false;
-
-                ngModel.$parsers.push(function(sDate) {
+                ngModel.$parsers.push(function (sDate) {
                     return new Date(sDate);
                 });
-                ngModel.$formatters.push(function(oDate) {
+                ngModel.$formatters.push(function (oDate) {
                     return $filter('date')(oDate, conf.format);
                 });
 
-                element.after($compile(TEMPLATE)(scope));
-
-                var calendar = element.next();
                 var overlay = angular.element('<div class="rm-overlay" style="display:none"></div>');
-                    overlay.on('click', function() {
-                        togglePicker(false);
-                    });
-                    $document.find('body').eq(0).append(overlay);
+                overlay.on('click', function () {
+                    togglePicker(false);
+                });
+                $document.find('body').eq(0).append(overlay);
+                overlay.after($compile(TEMPLATE)(scope));
+                var calendar = overlay.next();
+                calendar.css({display: "none"});
+                calendar.addClass('it-is-input');
 
-                element.on('click', function() {
+                element.on('click', function () {
 
-                    if( window.innerWidth < 481 ) element[0].blur();
-                    var pos = offset( element[0] );
-                        pos.top += element[0].offsetHeight +1;
+                    if (window.innerWidth < 481) element[0].blur();
+                    var pos = offset(element[0]);
+                    pos.top += element[0].offsetHeight + 1;
 
-                    scope.style = {top: pos.top + "px", left: pos.left + "px"};
+                    calendar.css({top: pos.top + "px", left: pos.left + "px", display: "block"});
                     togglePicker(true);
-                    pos = adjustPos(calendar[0]);
-                    scope.style = {top: pos.top + "px", left: pos.left + "px"};
-                    scope.$apply();
+                    pos = adjustPos(pos, calendar[0]);
+                    calendar.css({top: pos.top + "px", left: pos.left + "px"});
                 });
 
-                $document.on('keydown', function(e) {
+                $document.on('keydown', function (e) {
                     if ([9, 13, 27].indexOf(e.keyCode) >= 0) togglePicker(false);
                 });
             }
             else {
-                scope.show = true;
                 element.append($compile(TEMPLATE)(scope));
             }
         };
 
         //TODO: template may need optimization :)
         var TEMPLATE =
-        '<div class="rm-datepicker" ng-class="{mondayStart: mondayStart}" ng-show="show" ng-style="style">' +
+        '<div class="rm-datepicker" ng-class="{mondayStart: mondayStart}">' +
             '<div class="nav">' +
                 '<a><i class="mi_arrow_back"></i></a>' +
                 '<a class="back waves-effect" ng-click="toggleState(-1)" rm-include="activeDateTpl[state]"></a>' +
