@@ -25,6 +25,7 @@
 
         min: null,
         max: null,
+        'default': new Date,
 
         activeMonthFormat: 'MMMM yyyy',
         format: "yyyy-MM-dd"
@@ -43,6 +44,17 @@
             }
             if (conf.min) conf.min.setHours(0, 0, 0, 0);
             if (conf.max) conf.max.setHours(23, 59, 59, 999);
+
+            if(conf.min && conf.default < conf.min) {
+               conf.default = new Date(conf.min.getTime());
+            }
+            if(conf.max && conf.default > conf.max) {
+               conf.default = new Date(conf.max.getTime());
+            }
+            conf.default.setHours(0, 0, 0, 0);
+            var getDefault = function () {
+                return new Date(conf.default.getTime());
+            }
 
             var isInput = element[0].tagName.toUpperCase() == "INPUT";
             var isReached = {
@@ -139,14 +151,7 @@
             var init = function () {
                 if (!scope.j || !(scope.j instanceof Date)) {
                   isDateEmptyBeforeInit = true;
-                  scope.j = new Date();
-                  if(conf.min && scope.j < conf.min) {
-                     scope.j = new Date(conf.min.getTime());
-                  }
-                  if(conf.max && conf.max < scope.j) {
-                     scope.j = new Date(conf.max.getTime());
-                  }
-                  scope.j.setHours(0, 0, 0, 0);
+                  scope.j = getDefault();
                 }
                 return refresh();
             };
@@ -313,7 +318,7 @@
 
             if (isInput) {
                 ngModel.$parsers.push(function (sDate) {
-                    return new Date(sDate);
+                    return (sDate && (value = new Date(sDate)) && value.toString()!="Invalid Date") ? value : getDefault();
                 });
                 ngModel.$formatters.push(function (oDate) {
                     return isDateEmptyBeforeInit ? '' : $filter('date')(oDate, conf.format);
@@ -321,7 +326,7 @@
 
                 ngModel.$validators.required = function () {
                     return !attrs.required || !isDateEmptyBeforeInit;
-                }
+                };
 
                 var overlay = angular.element('<div class="rm-overlay" style="display:none"></div>');
                 overlay.on('click', function () {
