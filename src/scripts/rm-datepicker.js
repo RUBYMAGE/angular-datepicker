@@ -52,6 +52,10 @@
                      conf.default = new Date(conf.max.getTime());
                   }
                   conf.default.setHours(3, 0, 1, 0);
+                  if(isDefaultValueAssigned) {
+                    scope.j = getDefault();
+                  }
+
                   refresh && refresh();
               }
             };
@@ -154,10 +158,10 @@
                 }
             };
 
-            var isDateEmptyBeforeInit = false;
+            var isDefaultValueAssigned = false;
             var init = function () {
                 if (!scope.j || !(scope.j instanceof Date)) {
-                  isDateEmptyBeforeInit = true;
+                  isDefaultValueAssigned = true;
                   scope.j = getDefault();
                 }
                 return refresh();
@@ -212,7 +216,7 @@
                 var m = scope.j.getMonth();
 
                 scope.j = new Date(oDate);
-                isDateEmptyBeforeInit = false;
+                isDefaultValueAssigned = false;
                 $timeout(function () {
                     ngModel.$setViewValue(scope.j);
                 });
@@ -330,11 +334,11 @@
                            getDefault();
                 });
                 ngModel.$formatters.push(function (oDate) {
-                    return isDateEmptyBeforeInit ? '' : $filter('date')(oDate, conf.format);
+                    return isDefaultValueAssigned ? '' : $filter('date')(oDate, conf.format);
                 });
 
                 ngModel.$validators.required = function () {
-                    return !attrs.required || !isDateEmptyBeforeInit;
+                    return !attrs.required || !isDefaultValueAssigned;
                 };
 
                 ngModel.$validators.range = function () {
