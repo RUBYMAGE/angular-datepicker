@@ -140,6 +140,13 @@
                 if (!scope.j || !(scope.j instanceof Date)) {
                   isDateEmptyBeforeInit = true;
                   scope.j = new Date();
+                  if(conf.min && scope.j < conf.min) {
+                     scope.j = new Date(conf.min.getTime());
+                  }
+                  if(conf.max && conf.max < scope.j) {
+                     scope.j = new Date(conf.max.getTime());
+                  }
+                  scope.j.setHours(0, 0, 0, 0);
                 }
                 return refresh();
             };
