@@ -329,8 +329,7 @@
                 };
 
                 ngModel.$validators.range = function () {
-                    var invalid = (conf.min && isReached.min) || (conf.max && isReached.max);
-                    return !invalid;
+                    return (!conf.min || conf.min < scope.j) && (!conf.max || scope.j < conf.max);
                 }
 
                 var overlay = angular.element('<div class="rm-overlay" style="display:none"></div>');
