@@ -318,7 +318,9 @@
 
             if (isInput) {
                 ngModel.$parsers.push(function (sDate) {
-                    return (sDate && (value = new Date(sDate)) && value.toString()!="Invalid Date") ? value : getDefault();
+                    return sDate instanceof Date ? sDate :
+                           (sDate && (sDate = new Date(sDate)) && sDate.toString()!="Invalid Date") ? sDate :
+                           getDefault();
                 });
                 ngModel.$formatters.push(function (oDate) {
                     return isDateEmptyBeforeInit ? '' : $filter('date')(oDate, conf.format);
