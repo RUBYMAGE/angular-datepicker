@@ -36,22 +36,26 @@
 
         var link = function (scope, element, attrs, ngModel) {
             var conf = angular.copy(rmDatepickerConfig);
+            scope.$watch('rmConfig', function (rmConfig) {
+              if (rmConfig) {
+                  for (var prop in conf)
+                      if (conf.hasOwnProperty(prop))
+                          if (rmConfig[prop] != undefined) conf[prop] = rmConfig[prop];
 
-            if (scope.rmConfig) {
-                for (var prop in conf)
-                    if (conf.hasOwnProperty(prop))
-                        if (scope.rmConfig[prop] != undefined) conf[prop] = scope.rmConfig[prop];
-            }
-            if (conf.min) conf.min.setHours(0, 0, 0, 0);
-            if (conf.max) conf.max.setHours(23, 59, 59, 999);
+                  if (conf.min) conf.min.setHours(0, 0, 0, 0);
+                  if (conf.max) conf.max.setHours(23, 59, 59, 999);
 
-            if(conf.min && conf.default < conf.min) {
-               conf.default = new Date(conf.min.getTime());
-            }
-            if(conf.max && conf.default > conf.max) {
-               conf.default = new Date(conf.max.getTime());
-            }
-            conf.default.setHours(0, 0, 0, 0);
+                  if(conf.min && conf.default < conf.min) {
+                     conf.default = new Date(conf.min.getTime());
+                  }
+                  if(conf.max && conf.default > conf.max) {
+                     conf.default = new Date(conf.max.getTime());
+                  }
+                  conf.default.setHours(3, 0, 1, 0);
+                  refresh();
+              }
+            }, true);
+
             var getDefault = function () {
                 return new Date(conf.default.getTime());
             }
