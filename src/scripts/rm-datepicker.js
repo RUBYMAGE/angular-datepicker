@@ -54,8 +54,15 @@
                   conf.default.setHours(3, 0, 1, 0);
 
                   if(refresh) {
-                    isInput && ngModel.$validate();
-                    !scope.j && (isDefaultValueAssigned = true);
+                    if(isInput) {
+                      ngModel.$validate();
+                      if(ngModel.$invalid) {
+                          isDefaultValueAssigned = true;
+                          scope.j = ngModel.$viewValue = getDefault();
+                          scope.state = conf.initState;
+                          ngModel.$validate();
+                      }
+                    }
                     isDefaultValueAssigned && (scope.j = getDefault());
 
                     refresh();
