@@ -52,11 +52,14 @@
                      conf.default = new Date(conf.max.getTime());
                   }
                   conf.default.setHours(3, 0, 1, 0);
-                  if(isDefaultValueAssigned) {
-                    scope.j = getDefault();
-                  }
 
-                  refresh && refresh();
+                  if(refresh) {
+                    isInput && ngModel.$validate();
+                    !scope.j && (isDefaultValueAssigned = true);
+                    isDefaultValueAssigned && (scope.j = getDefault());
+
+                    refresh();
+                  }
               }
             };
             scope.$watch('rmConfig', applyRmConfig, true);
