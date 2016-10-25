@@ -80,10 +80,11 @@
                         d = oDate.getDate(),
                         max,
                         i = 0,
+                        Ymin = conf.min ? conf.min.getFullYear() : 0;
                         n = conf.decadeSize || 12; // count of years in decade
                     var aDecade = new Array(n);
 
-                    Y = Math.floor(Y / n) * n; // begin year of current decade
+                    Y = Math.floor((Y - Ymin)  / n) * n + Ymin; // begin year of current decade
 
                     for (; i < n; Y++, i++) {
                         max = daysInMonth(Y, m);
