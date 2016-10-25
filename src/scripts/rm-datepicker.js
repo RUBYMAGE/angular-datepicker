@@ -53,20 +53,18 @@
                   }
                   conf.default.setHours(3, 0, 1, 0);
 
-                  if(refresh) {
-                    if(isInput) {
-                      ngModel.$validate();
-                      if(ngModel.$invalid) {
-                          isDefaultValueAssigned = true;
-                          scope.j = ngModel.$viewValue = getDefault();
-                          scope.state = conf.initState;
-                          ngModel.$validate();
-                      }
+                  isDefaultValueAssigned && (scope.j = getDefault());
+                  if(isInput) {
+                    ngModel.$viewValue = scope.j;
+                    ngModel.$validate();
+                    if(ngModel.$invalid) {
+                        isDefaultValueAssigned = true;
+                        scope.j = ngModel.$viewValue = getDefault();
+                        scope.state = conf.initState;
+                        ngModel.$validate();
                     }
-                    isDefaultValueAssigned && (scope.j = getDefault());
-
-                    refresh();
                   }
+                  refresh && refresh();
               }
             };
             scope.$watch('rmConfig', applyRmConfig, true);
