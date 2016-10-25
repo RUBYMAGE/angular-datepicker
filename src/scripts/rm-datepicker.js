@@ -363,7 +363,7 @@
         var TEMPLATE =
         '<div class="rm-datepicker" ng-class="{mondayStart: mondayStart}">' +
             '<div class="nav">' +
-                '<a><i class="mi_arrow_back"></i></a>' +
+                '<a ng-hide="state == \'decade\'"><i class="mi_arrow_back"></i></a>' +
                 '<a class="back waves-effect" ng-click="toggleState(-1)" rm-include="activeDateTpl[state]"></a>' +
                 '<a class="adjacent waves-effect" ng-click="prev()"><i class="mi_keyboard_arrow_up"></i></a>' +
                 '<a class="adjacent waves-effect" ng-click="next()"><i class="mi_keyboard_arrow_down"></i></a>' +
@@ -404,7 +404,7 @@
 
           $templateCache.put(
               'rm-month.html',
-              '<div class="day sunSat" ng-if="state == \'month\'">' +
+              '<div class="day sunSat">' +
                   '<a ng-repeat="oDate in aDates | limitTo:7">{{oDate | date: \'EEE\'}}</a>' +
               '</div>' +
               '<div class="ng-class: state; square date">' +
