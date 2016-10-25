@@ -53,12 +53,12 @@
                   }
                   conf.default.setHours(3, 0, 1, 0);
 
-                  isDefaultValueAssigned && (scope.j = getDefault());
+                  scope.isDefault && (scope.j = getDefault());
                   if(isInput) {
                     ngModel.$viewValue = scope.j;
                     ngModel.$validate();
                     if(ngModel.$invalid) {
-                        isDefaultValueAssigned = true;
+                        scope.isDefault = true;
                         scope.j = ngModel.$viewValue = getDefault();
                         scope.state = conf.initState;
                         ngModel.$validate();
@@ -166,10 +166,10 @@
                 }
             };
 
-            var isDefaultValueAssigned = false;
+            scope.isDefault = false;
             var init = function () {
                 if (!scope.j || !(scope.j instanceof Date)) {
-                  isDefaultValueAssigned = true;
+                  scope.isDefault = true;
                   scope.j = getDefault();
                 }
                 return refresh();
@@ -224,7 +224,9 @@
                 var m = scope.j.getMonth();
 
                 scope.j = new Date(oDate);
-                isDefaultValueAssigned = false;
+                if(scope.state == conf.minState) {
+                    scope.isDefault = false;
+                }
                 $timeout(function () {
                     ngModel.$setViewValue(scope.j);
                 });
@@ -342,11 +344,11 @@
                            getDefault();
                 });
                 ngModel.$formatters.push(function (oDate) {
-                    return isDefaultValueAssigned ? '' : $filter('date')(oDate, conf.format);
+                    return scope.isDefault ? '' : $filter('date')(oDate, conf.format);
                 });
 
                 ngModel.$validators.required = function () {
-                    return !attrs.required || !isDefaultValueAssigned;
+                    return !attrs.required || !scope.isDefault;
                 };
 
                 ngModel.$validators.range = function () {
@@ -412,7 +414,7 @@
           $templateCache.put(
               'rm-decade.html',
               '<div class="ng-class: state; square date">' +
-                  '<div ng-repeat="oDate in aDates" ng-class="{j: isActive[\'year\'](oDate), off: isOff(oDate)}">' +
+                  '<div ng-repeat="oDate in aDates" ng-class="{j: !isDefault && isActive.year(oDate), off: isOff(oDate)}">' +
                       '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate | date: \'yyyy\'}}</span></a>' +
                   '</div>' +
               '</div>'
@@ -421,7 +423,7 @@
           $templateCache.put(
               'rm-year.html',
               '<div class="ng-class: state; square date">' +
-                  '<div ng-repeat="oDate in aDates" ng-class="{j: isActive[\'month\'](oDate), off: isOff(oDate)}">' +
+                  '<div ng-repeat="oDate in aDates" ng-class="{j: !isDefault && isActive.month(oDate), off: isOff(oDate)}">' +
                       '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate | date: \'MMM\'}}</span></a>' +
                   '</div>' +
               '</div>'
@@ -433,7 +435,7 @@
                   '<a ng-repeat="oDate in aDates | limitTo:7">{{oDate | date: \'EEE\'}}</a>' +
               '</div>' +
               '<div class="ng-class: state; square date">' +
-                  '<div ng-repeat="oDate in aDates" ng-class="{j: isActive[\'date\'](oDate), off: isOff(oDate), out: !isActive[\'month\'](oDate)}">' +
+                  '<div ng-repeat="oDate in aDates" ng-class="{j: !isDefault && isActive.date(oDate), off: isOff(oDate), out: !isActive.month(oDate)}">' +
                       '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate.getDate()}}</span></a>' +
                   '</div>' +
               '</div>'
