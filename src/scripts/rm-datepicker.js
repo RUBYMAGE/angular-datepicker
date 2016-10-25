@@ -370,34 +370,7 @@
                 '<a class="today waves-effect" ng-click="now()">{{textToday}}</a>' +
             '</div>' +
             '<div class="body" ng-include="\'rm-\' + state + \'.html\'"></div>' +
-        '</div>' +
-
-        '<script type="text/ng-template" id="rm-decade.html">' +
-            '<div class="ng-class: state; square date">' +
-                '<div ng-repeat="oDate in aDates" ng-class="{j: isActive[\'year\'](oDate), off: isOff(oDate)}">' +
-                    '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate | date: \'yyyy\'}}</span></a>' +
-                '</div>' +
-            '</div>' +
-        '</script>' +
-
-        '<script type="text/ng-template" id="rm-year.html">' +
-            '<div class="ng-class: state; square date">' +
-                '<div ng-repeat="oDate in aDates" ng-class="{j: isActive[\'month\'](oDate), off: isOff(oDate)}">' +
-                    '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate | date: \'MMM\'}}</span></a>' +
-                '</div>' +
-            '</div>' +
-        '</script>' +
-
-        '<script type="text/ng-template" id="rm-month.html">' +
-            '<div class="day sunSat" ng-if="state == \'month\'">' +
-                '<a ng-repeat="oDate in aDates | limitTo:7">{{oDate | date: \'EEE\'}}</a>' +
-            '</div>' +
-            '<div class="ng-class: state; square date">' +
-                '<div ng-repeat="oDate in aDates" ng-class="{j: isActive[\'date\'](oDate), off: isOff(oDate), out: !isActive[\'month\'](oDate)}">' +
-                    '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate.getDate()}}</span></a>' +
-                '</div>' +
-            '</div>' +
-        '</script>';
+        '</div>';
 
         return {
             require: 'ngModel',
@@ -407,6 +380,39 @@
             },
             link: link
         }
+    }]);
+
+
+    Module.run(['$templateCache', function($templateCache) {
+          $templateCache.put(
+              'rm-decade.html',
+              '<div class="ng-class: state; square date">' +
+                  '<div ng-repeat="oDate in aDates" ng-class="{j: isActive[\'year\'](oDate), off: isOff(oDate)}">' +
+                      '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate | date: \'yyyy\'}}</span></a>' +
+                  '</div>' +
+              '</div>'
+          );
+
+          $templateCache.put(
+              'rm-year.html',
+              '<div class="ng-class: state; square date">' +
+                  '<div ng-repeat="oDate in aDates" ng-class="{j: isActive[\'month\'](oDate), off: isOff(oDate)}">' +
+                      '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate | date: \'MMM\'}}</span></a>' +
+                  '</div>' +
+              '</div>'
+          );
+
+          $templateCache.put(
+              'rm-month.html',
+              '<div class="day sunSat" ng-if="state == \'month\'">' +
+                  '<a ng-repeat="oDate in aDates | limitTo:7">{{oDate | date: \'EEE\'}}</a>' +
+              '</div>' +
+              '<div class="ng-class: state; square date">' +
+                  '<div ng-repeat="oDate in aDates" ng-class="{j: isActive[\'date\'](oDate), off: isOff(oDate), out: !isActive[\'month\'](oDate)}">' +
+                      '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate.getDate()}}</span></a>' +
+                  '</div>' +
+              '</div>'
+          );
     }]);
 
     Module.directive('rmInclude', ['$compile', function ($compile) {
