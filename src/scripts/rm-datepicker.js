@@ -36,7 +36,7 @@
 
         var link = function (scope, element, attrs, ngModel) {
             var conf = angular.copy(rmDatepickerConfig);
-            scope.$watch('rmConfig', function (rmConfig) {
+            var applyRmConfig = function (rmConfig) {
               if (rmConfig) {
                   for (var prop in conf)
                       if (conf.hasOwnProperty(prop))
@@ -52,9 +52,11 @@
                      conf.default = new Date(conf.max.getTime());
                   }
                   conf.default.setHours(3, 0, 1, 0);
-                  refresh();
+                  refresh && refresh();
               }
-            }, true);
+            };
+            scope.$watch('rmConfig', applyRmConfig, true);
+            applyRmConfig(scope.rmConfig);
 
             var getDefault = function () {
                 return new Date(conf.default.getTime());
