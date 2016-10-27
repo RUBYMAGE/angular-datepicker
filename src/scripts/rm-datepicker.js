@@ -299,6 +299,10 @@
                 week: "{{ j | date: 'd MMMM yyyy' }}"
             };
 
+            scope.$watch('j', function(j) {
+               j && j instanceof Date || init();
+            });
+
             init(); // generate initial state
 
             var offset = function (objElement) {
@@ -365,7 +369,7 @@
                 calendar.css({display: "none"});
                 calendar.addClass('it-is-input');
 
-                element.on('click', function () {
+                element.on('click focus', function () {
 
                     if (window.innerWidth < 481) element[0].blur();
                     var pos = offset(element[0]);
