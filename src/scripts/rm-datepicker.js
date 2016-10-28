@@ -226,10 +226,10 @@
                 scope.j = new Date(oDate);
                 if(scope.state == conf.minState) {
                     scope.isDefault = false;
+                    $timeout(function () {
+                        ngModel.$setViewValue(scope.j);
+                    });
                 }
-                $timeout(function () {
-                    ngModel.$setViewValue(scope.j);
-                });
                 if (conf.toggleState) scope.toggleState(1);
 
                 if (m != scope.j.getMonth())
@@ -356,8 +356,8 @@
                 };
 
                 ngModel.$validators.range = function () {
-                    return (!conf.min || conf.min < scope.j) && (!conf.max || scope.j < conf.max);
-                }
+                    return !scope.isDefault && (!conf.min || conf.min < scope.j) && (!conf.max || scope.j < conf.max);
+                };
 
                 var overlay = angular.element('<div class="rm-overlay" style="display:none"></div>');
                 overlay.on('click', function () {
