@@ -370,6 +370,9 @@
                 calendar.addClass('it-is-input');
 
                 element.on('click focus', function () {
+                    if(element.prop('readonly')) {
+                        return;
+                    }
 
                     if (window.innerWidth < 481) element[0].blur();
                     var pos = offset(element[0]);
