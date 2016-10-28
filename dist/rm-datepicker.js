@@ -169,8 +169,18 @@
             scope.isDefault = false;
             var init = function () {
                 if (!scope.j || !(scope.j instanceof Date)) {
-                  scope.isDefault = true;
-                  scope.j = getDefault();
+                    var date = scope.j ? new Date(scope.j) : null;
+                    if(  date && date.toString() != 'Invalid Date' &&
+                        (!conf.min || conf.min < date) &&
+                        (!conf.max || date < conf.max)
+                    ) {
+                        date.setHours(3, 0, 1, 0);
+                        scope.j = date;
+                        scope.isDefault = false;
+                    } else {
+                        scope.isDefault = true;
+                        scope.j = getDefault();
+                    }
                 }
                 return refresh();
             };
