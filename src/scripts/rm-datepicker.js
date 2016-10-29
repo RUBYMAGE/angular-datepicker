@@ -397,6 +397,11 @@
                 $document.on('keydown', function (e) {
                     if ([9, 13, 27].indexOf(e.keyCode) >= 0) togglePicker(false);
                 });
+
+                scope.$on('$destroy', function() {
+                    calendar.remove();
+                    overlay.remove();
+                });
             }
             else {
                 element.append($compile(TEMPLATE)(scope));
