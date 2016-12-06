@@ -36,6 +36,31 @@
 
         var link = function (scope, element, attrs, ngModel) {
             var conf = angular.copy(rmDatepickerConfig);
+            
+            var getDefault = function () {
+                var defaultValue = new Date(conf.default.getTime());
+                defaultValue.isDefault = true;
+                return defaultValue;
+            };
+
+            scope.isDefault = true;
+            var date = getDefault();
+            var setDate = function (newDate) {
+                if(newDate.isDefault) {
+                    scope.isDefault = true;
+                    scope.val = null;
+                } else {
+                    scope.val = newDate;
+                }
+
+                return date = newDate;
+            };
+
+            var getIsDefault = function () {
+                return scope.isDefault;
+            };
+            
+            
             var applyRmConfig = function (rmConfig) {
               if (rmConfig) {
                   for (var prop in conf)
@@ -69,29 +94,6 @@
             };
             scope.$watch('rmConfig', applyRmConfig, true);
             applyRmConfig(scope.rmConfig);
-
-            var getDefault = function () {
-                var defaultValue = new Date(conf.default.getTime());
-                defaultValue.isDefault = true;
-                return defaultValue;
-            };
-
-            scope.isDefault = true;
-            var date = getDefault();
-            var setDate = function (newDate) {
-                if(newDate.isDefault) {
-                    scope.isDefault = true;
-                    scope.val = null;
-                } else {
-                    scope.val = newDate;
-                }
-
-                return date = newDate;
-            };
-
-            var getIsDefault = function () {
-                return scope.isDefault;
-            };
 
             var isInput = element[0].tagName.toUpperCase() == "INPUT";
             var isReached = {
