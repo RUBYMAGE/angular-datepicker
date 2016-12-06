@@ -53,13 +53,13 @@
                   }
                   conf.default.setHours(3, 0, 1, 0);
 
-                  scope.isDefault && (scope.j = getDefault());
+                  getIsDefault() && (setDate(getDefault()));
                   if(isInput) {
-                    ngModel.$viewValue = scope.j;
+                    ngModel.$viewValue = date;
                     ngModel.$validate();
                     if(ngModel.$invalid) {
                         scope.isDefault = true;
-                        scope.j = ngModel.$viewValue = getDefault();
+                        ngModel.$viewValue = setDate(getDefault());
                         scope.state = conf.initState;
                         ngModel.$validate();
                     }
@@ -71,8 +71,27 @@
             applyRmConfig(scope.rmConfig);
 
             var getDefault = function () {
-                return new Date(conf.default.getTime());
-            }
+                var defaultValue = new Date(conf.default.getTime());
+                defaultValue.isDefault = true;
+                return defaultValue;
+            };
+
+            scope.isDefault = true;
+            var date = getDefault();
+            var setDate = function (newDate) {
+                if(newDate.isDefault) {
+                    scope.isDefault = true;
+                    scope.val = null;
+                } else {
+                    scope.val = newDate;
+                }
+
+                return date = newDate;
+            };
+
+            var getIsDefault = function () {
+                return scope.isDefault;
+            };
 
             var isInput = element[0].tagName.toUpperCase() == "INPUT";
             var isReached = {
@@ -85,10 +104,10 @@
             var adjustDate = function (date) {
                 var date = parseInt(date, 10);
                 if (!isNaN(date)) {
-                    var max = daysInMonth(scope.j.getFullYear(), scope.j.getMonth());
+                    var max = daysInMonth(date.getFullYear(), date.getMonth());
                     if (date < 1) date = 1;
                     if (date > max) date = max;
-                    scope.j.setDate(date);
+                    date.setDate(date);
                 }
             };
             var gen = {
@@ -153,7 +172,7 @@
             };
             var refresh = function (state) {
                 state = state || scope.state;
-                scope.aDates = gen[state](scope.j);
+                scope.aDates = gen[state](date);
 
                 if (conf.min) {
                     //if(scope.aDates[0] < conf.min) scope.aDates[0].setDate( conf.min.getDate() );
@@ -164,25 +183,6 @@
                     //if(oDate > conf.max) oDate.setDate( conf.max.getDate() );
                     isReached.max = oDate > conf.max;
                 }
-            };
-
-            scope.isDefault = false;
-            var init = function () {
-                if (!scope.j || !(scope.j instanceof Date)) {
-                    var date = scope.j ? new Date(scope.j) : null;
-                    if(  date && date.toString() != 'Invalid Date' &&
-                        (!conf.min || conf.min < date) &&
-                        (!conf.max || date < conf.max)
-                    ) {
-                        date.setHours(3, 0, 1, 0);
-                        scope.j = date;
-                        scope.isDefault = false;
-                    } else {
-                        scope.isDefault = true;
-                        scope.j = getDefault();
-                    }
-                }
-                return refresh();
             };
 
             //TODO: optimize this method
@@ -209,13 +209,13 @@
             };
             scope.isActive = {
                 year: function (oDate) {
-                    return oDate.getFullYear() == scope.j.getFullYear();
+                    return oDate.getFullYear() == date.getFullYear();
                 },
                 month: function (oDate) {
-                    return oDate.getMonth() == scope.j.getMonth();
+                    return oDate.getMonth() == date.getMonth();
                 },
                 date: function (oDate) {
-                    return oDate.getDate() == scope.j.getDate();
+                    return oDate.getDate() == date.getDate();
                 }
             };
             scope.isToday = function (oDate) {
@@ -231,22 +231,24 @@
                     togglePicker(false);
                 }
 
-                var m = scope.j.getMonth();
+                var m = date.getMonth();
 
-                scope.j = new Date(oDate);
+                setDate(oDate);
                 if(scope.state == conf.minState) {
                     scope.isDefault = false;
                     $timeout(function () {
-                        ngModel.$setViewValue(scope.j);
+                        ngModel.$setViewValue(oDate);
+                        setDate(oDate);
                     });
                 }
                 if (conf.toggleState) scope.toggleState(1);
 
-                if (m != scope.j.getMonth())
+                if (m != date.getMonth())
                     refresh();
             };
             scope.now = function () {
-                scope.j = new Date();
+                scope.isDefault = false;
+                setDate(new Date);
                 refresh();
             };
             scope.next = function (delta) {
@@ -259,23 +261,23 @@
                     if (isReached.min) return;
                 }
 
-                var Y = scope.j.getFullYear(),
-                    m = scope.j.getMonth(),
-                    d = scope.j.getDate();
+                var Y = date.getFullYear(),
+                    m = date.getMonth(),
+                    d = date.getDate();
 
                 switch (scope.state) {
                     case "decade":
                         delta = delta * scope.aDates.length;
                     case "year":
-                        scope.j.setFullYear(Y + delta, m, 15);
+                        date.setFullYear(Y + delta, m, 15);
                         adjustDate(d);
                         break;
                     case "month":
-                        scope.j.setMonth(m + delta, 15);
+                        date.setMonth(m + delta, 15);
                         adjustDate(d);
                         break;
                     case "week" :
-                        scope.j.setDate(d + (delta * 7));
+                        date.setDate(d + (delta * 7));
                         break;
                 }
                 refresh();
@@ -309,11 +311,32 @@
                 week: "{{ j | date: 'd MMMM yyyy' }}"
             };
 
-            scope.$watch('j', function(j) {
-               j && j instanceof Date || init();
-            });
+            var watch = function(newValue) {
+                if(newValue && !(newValue instanceof Date)) {
+                    newValue = new Date(newValue);
+                }
 
-            init(); // generate initial state
+                if(newValue instanceof Date && (newValue.toString() == 'Invalid Date' || newValue.isDefault)) {
+                    newValue = null;
+                }
+
+                if (newValue instanceof Date) {
+                    if( (!conf.min || conf.min < newValue) && (!conf.max || newValue < conf.max) ) {
+                        scope.isDefault = false;
+                        newValue.setHours(3, 0, 1, 0);
+                        setDate(newValue);
+                    } else if(!scope.isDefault) {
+                        setDate(getDefault());
+                    }
+
+                    ngModel.$viewValue = ngModel.$formatters.reduceRight(function (prev, fn) { return fn(prev); }, newValue);
+                    ngModel.$render();
+                }
+
+                refresh();
+            };
+
+            scope.$watch('val', watch);
 
             var offset = function (objElement) {
                 var x = 0, y = 0;
@@ -353,20 +376,26 @@
 
             if (isInput) {
                 ngModel.$parsers.push(function (sDate) {
-                    return sDate instanceof Date ? sDate :
-                           (sDate && (sDate = new Date(sDate)) && sDate.toString()!="Invalid Date") ? sDate :
-                           getDefault();
+                    if(sDate && !(sDate instanceof Date)) {
+                        sDate = new Date(sDate);
+                    }
+
+                    if(sDate instanceof Date && sDate.toString() == 'Invalid Date') {
+                        sDate = null;
+                    }
+
+                    return sDate instanceof Date ? sDate : getDefault();
                 });
                 ngModel.$formatters.push(function (oDate) {
-                    return scope.isDefault ? '' : $filter('date')(oDate, conf.format);
+                    return getIsDefault() ? '' : $filter('date')(oDate, conf.format);
                 });
 
                 ngModel.$validators.required = function () {
-                    return !attrs.required || !scope.isDefault;
+                    return !attrs.required || !getIsDefault();
                 };
 
                 ngModel.$validators.range = function () {
-                    return !scope.isDefault && (!conf.min || conf.min < scope.j) && (!conf.max || scope.j < conf.max);
+                    return getIsDefault() || ((!conf.min || conf.min < date) && (!conf.max || date < conf.max));
                 };
 
                 var overlay = angular.element('<div class="rm-overlay" style="display:none"></div>');
@@ -424,7 +453,7 @@
         return {
             require: 'ngModel',
             scope: {
-                j: '=ngModel', /* active date */
+                val: '=ngModel', /* active date */
                 rmConfig: "=rmConfig"
             },
             link: link
