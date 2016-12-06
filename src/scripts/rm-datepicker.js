@@ -48,7 +48,6 @@
             var setDate = function (newDate) {
                 if(newDate.isDefault) {
                     scope.isDefault = true;
-                    scope.val = null;
                 } else {
                     scope.val = newDate;
                 }
@@ -59,8 +58,7 @@
             var getIsDefault = function () {
                 return scope.isDefault;
             };
-            
-            
+
             var applyRmConfig = function (rmConfig) {
               if (rmConfig) {
                   for (var prop in conf)
@@ -314,6 +312,7 @@
             };
 
             var watch = function(newValue) {
+
                 if(newValue && !(newValue instanceof Date)) {
                     newValue = new Date(newValue);
                 }
@@ -339,6 +338,7 @@
             };
 
             scope.$watch('val', watch);
+            watch(scope.val);
 
             var offset = function (objElement) {
                 var x = 0, y = 0;
