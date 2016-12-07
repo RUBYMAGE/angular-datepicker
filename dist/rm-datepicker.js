@@ -59,6 +59,10 @@
                 return scope.isDefault;
             };
 
+            scope.getDate = function () {
+                return date;
+            };
+
             var applyRmConfig = function (rmConfig) {
               if (rmConfig) {
                   for (var prop in conf)
@@ -101,13 +105,13 @@
             var daysInMonth = function (year, month) {
                 return new Date(year, month + 1, 0).getDate();
             };
-            var adjustDate = function (date) {
-                var date = parseInt(date, 10);
+            var adjustDate = function (dayInMonth) {
+                var dayInMonth = parseInt(dayInMonth, 10);
                 if (!isNaN(date)) {
                     var max = daysInMonth(date.getFullYear(), date.getMonth());
-                    if (date < 1) date = 1;
-                    if (date > max) date = max;
-                    date.setDate(date);
+                    if (dayInMonth < 1) dayInMonth = 1;
+                    if (dayInMonth > max) dayInMonth = max;
+                    date.setDate(dayInMonth);
                 }
             };
             var gen = {
@@ -306,9 +310,9 @@
             //TODO: this(together with rmInclude directive below) is a quick implementation, maybe there is a better idea
             scope.activeDateTpl = {
                 decade: "{{aDates[0].getFullYear()}} - {{aDates[aDates.length-1].getFullYear()}}",
-                year: "{{j.getFullYear()}}",
-                month: "{{j | date: '" + conf.activeMonthFormat.replace("'", "") + "'}}",
-                week: "{{ j | date: 'd MMMM yyyy' }}"
+                year: "{{getDate().getFullYear()}}",
+                month: "{{getDate()| date: '" + conf.activeMonthFormat.replace("'", "") + "'}}",
+                week: "{{getDate() | date: 'd MMMM yyyy' }}"
             };
 
             var watch = function(newValue) {
@@ -378,15 +382,21 @@
 
             if (isInput) {
                 ngModel.$parsers.push(function (sDate) {
+                    var oDate;
+
                     if(sDate && !(sDate instanceof Date)) {
-                        sDate = new Date(sDate);
+                        var oDate = new Date(sDate);
+
+                        if($filter('date')(oDate, conf.format) != sDate) {
+                            oDate = null;
+                        }
                     }
 
                     if(sDate instanceof Date && sDate.toString() == 'Invalid Date') {
                         sDate = null;
                     }
 
-                    return sDate instanceof Date ? sDate : getDefault();
+                    return sDate instanceof Date ? sDate : date;
                 });
                 ngModel.$formatters.push(function (oDate) {
                     return getIsDefault() ? '' : $filter('date')(oDate, conf.format);
