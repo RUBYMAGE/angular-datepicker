@@ -27,7 +27,7 @@
         max: null,
         'default': new Date,
 
-        activeMonthFormat: 'MMMM yyyy',
+        activeMonthFormat: 'LLLL yyyy',
         format: "yyyy-MM-dd"
     });
 

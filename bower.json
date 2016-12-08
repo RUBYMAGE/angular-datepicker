@@ -47,7 +47,7 @@
   ],
   "homepage": "https://github.com/RUBYMAGE/angular-datepicker",
   "dependencies": {
-    "angular": "1.x"
+    "angular": "^1.5.1"
   },
   "ignore": [
     "**/.*",
