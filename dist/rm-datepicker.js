@@ -487,7 +487,7 @@
               'rm-year.html',
               '<div class="ng-class: state; square date">' +
                   '<div ng-repeat="oDate in aDates" ng-class="{j: !isDefault && isActive.month(oDate), off: isOff(oDate)}">' +
-                      '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate | date: \'MMM\'}}</span></a>' +
+                      '<a ng-click="go(oDate)" class="waves-effect"><span>{{oDate | date: \'LLLL\'}}</span></a>' +
                   '</div>' +
               '</div>'
           );
