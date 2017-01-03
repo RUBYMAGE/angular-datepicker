@@ -240,7 +240,7 @@
                 setDate(oDate);
                 if(scope.state == conf.minState) {
                     scope.isDefault = false;
-                    $timeout(function () {
+                    isInput && $timeout(function () {
                         ngModel.$setViewValue(oDate);
                         setDate(oDate);
                     });
@@ -317,6 +317,10 @@
 
             var watch = function(newValue) {
 
+                if(newValue == date) {
+                    return;
+                }
+
                 if(newValue && !(newValue instanceof Date)) {
                     newValue = new Date(newValue);
                 }
@@ -334,8 +338,12 @@
                         setDate(getDefault());
                     }
 
-                    ngModel.$viewValue = ngModel.$formatters.reduceRight(function (prev, fn) { return fn(prev); }, newValue);
-                    ngModel.$render();
+                    if(isInput) {
+                        ngModel.$setViewValue(newValue);
+                        ngModel.$viewValue = ngModel.$formatters.reduceRight(function (prev, fn) { return fn(prev); }, newValue);
+                        ngModel.$render();
+                    }
+
                 }
 
                 refresh();
