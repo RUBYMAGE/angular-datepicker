@@ -349,9 +349,6 @@
                 refresh();
             };
 
-            scope.$watch('val', watch);
-            watch(scope.val);
-
             var offset = function (objElement) {
                 var x = 0, y = 0;
 
@@ -455,6 +452,9 @@
             else {
                 element.append($compile(TEMPLATE)(scope));
             }
+
+            scope.$watch('val', watch);
+            watch(scope.val);
         };
 
         //TODO: template may need optimization :)
