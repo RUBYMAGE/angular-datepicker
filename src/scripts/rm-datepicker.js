@@ -11,6 +11,9 @@
 
     var Module = angular.module('rmDatepicker', []);
 
+    var defaultHour = (new Date).getTimezoneOffset()/-60;
+    if(defaultHour < 0) { defaultHour = 0; }
+
     Module.constant('rmDatepickerConfig', {
         mondayStart: false,
         textToday: "Today",
@@ -78,7 +81,7 @@
                   if(conf.max && conf.default > conf.max) {
                      conf.default = new Date(conf.max.getTime());
                   }
-                  conf.default.setHours(12, 0, 1, 0);
+                  conf.default.setHours(defaultHour, 0, 1, 0);
 
                   getIsDefault() && (setDate(getDefault()));
                   if(isInput) {
@@ -130,7 +133,7 @@
                     for (; i < n; Y++, i++) {
                         max = daysInMonth(Y, m);
                         if (d > max) d = max;
-                        aDecade[i] = new Date(Y, m, d, 3, 0, 1, 0);
+                        aDecade[i] = new Date(Y, m, d, defaultHour, 0, 1, 0);
                     }
                     return aDecade;
                 },
@@ -143,14 +146,14 @@
                     for (; m < 12; m++) {
                         max = daysInMonth(Y, m);
                         if (d > max) d = max;
-                        aYear.push(new Date(Y, m, d, 3, 0, 1, 0));
+                        aYear.push(new Date(Y, m, d, defaultHour, 0, 1, 0));
                     }
                     return aYear;
                 },
                 month: function (oDate) {
                     var Y = oDate.getFullYear(),
                         m = oDate.getMonth(),
-                        startDate = new Date(Y, m, 1, 3, 0, 1, 0),
+                        startDate = new Date(Y, m, 1, defaultHour, 0, 1, 0),
                         n;
                     var startPos = startDate.getDay() || 7;
                     if (scope.mondayStart) startPos = startPos - 1 || 7;
@@ -332,7 +335,7 @@
                 if (newValue instanceof Date) {
                     if( (!conf.min || conf.min < newValue) && (!conf.max || newValue < conf.max) ) {
                         scope.isDefault = false;
-                        newValue.setHours(12, 0, 1, 0);
+                        newValue.setHours(defaultHour, 0, 1, 0);
                         setDate(newValue);
                     } else if(!scope.isDefault) {
                         setDate(getDefault());
