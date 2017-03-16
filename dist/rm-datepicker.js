@@ -11,6 +11,9 @@
 
     var Module = angular.module('rmDatepicker', []);
 
+    var defaultHour = (new Date).getTimezoneOffset()/-60;
+    if(defaultHour < 0) { defaultHour = 0; }
+
     Module.constant('rmDatepickerConfig', {
         mondayStart: false,
         textToday: "Today",
@@ -78,7 +81,7 @@
                   if(conf.max && conf.default > conf.max) {
                      conf.default = new Date(conf.max.getTime());
                   }
-                  conf.default.setHours(3, 0, 1, 0);
+                  conf.default.setHours(defaultHour, 0, 1, 0);
 
                   getIsDefault() && (setDate(getDefault()));
                   if(isInput) {
@@ -332,7 +335,7 @@
                 if (newValue instanceof Date) {
                     if( (!conf.min || conf.min < newValue) && (!conf.max || newValue < conf.max) ) {
                         scope.isDefault = false;
-                        newValue.setHours(3, 0, 1, 0);
+                        newValue.setHours(defaultHour, 0, 1, 0);
                         setDate(newValue);
                     } else if(!scope.isDefault) {
                         setDate(getDefault());
