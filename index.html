@@ -25,6 +25,7 @@
     <hr>
     <input rm-datepicker type="text" ng-model="oDate2" rm-config="rmConfig2">
     <br>
+    <button data-ng-click="clearInput()">Clear Input</button>
 
 </div>
 
@@ -67,7 +68,10 @@
             $scope.rmConfig2 = { format: "d MMM yyyy" };
 
             $scope.oDate1 = new Date('2015-12-12');
-            $scope.oDate2 = new Date();
+            $scope.oDate2 = null;
+            $scope.clearInput = function(){
+                $scope.oDate2 = null;
+            }
         };
         app.controller("MyCtrl", ['$scope', MyCtrl]);
 

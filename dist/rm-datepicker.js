@@ -133,7 +133,9 @@
                 }
             };
             var init = function () {
-                if (!scope.j) {scope.j = new Date();}
+                scope.j = scope.outsideModel && (scope.outsideModel instanceof Date)
+                    ? scope.outsideModel
+                    : new Date();
                 return refresh();
             };
 
@@ -186,6 +188,7 @@
                 var m = scope.j.getMonth();
 
                 scope.j = new Date(oDate);
+                scope.outsideModel = scope.j;
                 $timeout(function () {
                     ngModel.$setViewValue(scope.j);
                 });
@@ -298,7 +301,12 @@
 
             if (isInput) {
                 ngModel.$parsers.push(function (sDate) {
-                    return new Date(sDate);
+                    var d = new Date(sDate);
+                    if (!isNaN(d.valueOf())) {
+                        scope.j = d;
+                        refresh();
+                    }
+                    return d;
                 });
                 ngModel.$formatters.push(function (oDate) {
                     return $filter('date')(oDate, conf.format);
@@ -378,7 +386,7 @@
         return {
             require: 'ngModel',
             scope: {
-                j: '=ngModel', /* active date */
+                outsideModel: '=ngModel', /* active date */
                 rmConfig: "=rmConfig"
             },
             link: link
